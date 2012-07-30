@@ -11,14 +11,37 @@ module Tupas
   autoload :Rack, 'tupas/rack'
 
   module Messages
-    autoload :Request, 'tupas/messages/request'
+    autoload :Request,  'tupas/messages/request'
+    autoload :Response, 'tupas/messages/response'
+  end
+
+  module Exceptions
+    autoload :InvalidResponseMessage, 'tupas/exceptions'
+    autoload :InvalidResponseHashAlgorithm, 'tupas/exceptions'
+    autoload :InvalidMacForResponseMessage, 'tupas/exceptions'
+    autoload :InvalidResponseMessageType, 'tupas/exceptions'
+    autoload :IncompleteResponseMessage, 'tupas/exceptions'
+    autoload :TypeNotFoundResponseMessage, 'tupas/exceptions'
   end
 
   module Utils
     module_function
     # REVIEW: Wrapper for Digest, if we need to changed to different lib - jaakko
     def sha256_hex(string = '')
-      Digest::SHA256.hexdigest(string)
+      calculate_hex_hash_with(:sha_256, string)
+    end
+
+    def calculate_hex_hash_with(algorithm, string = '')
+      case algorithm
+        when :md5
+          Digest::MD5.hexdigest(string)
+        when :sha_1
+          Digest::SHA1.hexdigest(string)
+        when :sha_256
+          Digest::SHA256.hexdigest(string)
+        else
+          raise ArgumentError, "Unkown hash algorithm: #{algorithm}"
+      end
     end
 
     def root_path

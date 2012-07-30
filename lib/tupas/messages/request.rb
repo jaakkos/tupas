@@ -39,11 +39,11 @@ module Tupas
       end
 
       def collect_variable_from(parameters)
-        parameters.select{|key, value| key =~ /\Aa01y_(.)+/i }
+        correct_order.merge( parameters.select{|key, value| key =~ /\Aa01y_(.)+/i } )
       end
 
       def combine_variables_to_string(parameters, secret)
-        parameters.collect{|key, value| "#{key}=#{value}"}.join('&') << '&' << secret << '&'
+        parameters.collect{|key, value| "#{value}"}.join('&') << '&' << secret << '&'
       end
 
       def default_params
@@ -52,6 +52,12 @@ module Tupas
 
       def service_providers
         @_service_providers
+      end
+
+      def correct_order
+        {'A01Y_ACTION_ID' => nil, 'A01Y_VERS' => nil, 'A01Y_RCVID' => nil, 'A01Y_LANGCODE' => nil,
+         'A01Y_STAMP' => nil, 'A01Y_IDTYPE' => nil, 'A01Y_RETLINK' => nil, 'A01Y_CANLINK' => nil,
+         'A01Y_REJLINK' => nil, 'A01Y_KEYVERS' => nil, 'A01Y_ALG' => nil, 'A01Y_MAC' => nil}
       end
 
     end
