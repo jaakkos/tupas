@@ -1,6 +1,7 @@
 =======
 # Tupas
 
+Read more from http://www.fkl.fi/teemasivut/sahkoinen_asiointi/Dokumentit/Tupas-tunnnistusperiaatteet_v20b.pdf
 TODO: Write a gem description
 
 ## Installation
