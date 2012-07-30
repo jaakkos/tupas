@@ -4,6 +4,8 @@
 Read more from http://www.fkl.fi/teemasivut/sahkoinen_asiointi/Dokumentit/Tupas-tunnnistusperiaatteet_v20b.pdf
 TODO: Write a gem description
 
+[![Build Status](https://secure.travis-ci.org/jaakkos/tupas.png?branch=master)](http://travis-ci.org/jaakkos/tupas)
+
 ## Installation
 
 Add this line to your application's Gemfile:
