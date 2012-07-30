@@ -16,6 +16,8 @@ Gem::Specification.new do |gem|
   gem.version       = Tupas::VERSION
 
   gem.add_runtime_dependency 'rack'
+  gem.add_runtime_dependency 'multi_json'
+  gem.add_runtime_dependency 'oj'
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'bundler'

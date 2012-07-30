@@ -3,11 +3,13 @@ require 'digest'
 require 'singleton'
 require 'logger'
 require 'yaml'
+require 'multi_json'
+require 'oj'
 
 
 module Tupas
   autoload :VERSION, 'tupas/version'
-  autoload :Configurable, 'tupas/configuration'
+  autoload :Configuration, 'tupas/configuration'
   autoload :Rack, 'tupas/rack'
 
   module Messages
@@ -24,13 +26,30 @@ module Tupas
     autoload :TypeNotFoundResponseMessage, 'tupas/exceptions'
   end
 
+  def self.config
+    Tupas::Configuration.instance
+  end
+
+  def self.configure
+    yield config
+  end
+
+  def self.logger
+    config.logger
+  end
+
+  def self.logger=(_logger)
+    config.logger = _logger
+  end
+
   module Utils
     module_function
-    # REVIEW: Wrapper for Digest, if we need to changed to different lib - jaakko
+
     def sha256_hex(string = '')
       calculate_hex_hash_with(:sha_256, string)
     end
 
+    # REVIEW: Wrapper for Digest, if we need to changed to different lib - jaakko
     def calculate_hex_hash_with(algorithm, string = '')
       case algorithm
         when :md5
@@ -44,6 +63,18 @@ module Tupas
       end
     end
 
+    def deep_merge(hash, other_hash = {})
+      target = hash.dup
+      other_hash.keys.each do |key|
+        if other_hash[key].is_a? ::Hash and hash[key].is_a? ::Hash
+          target[key] = deep_merge(target[key],other_hash[key])
+          next
+        end
+        target[key] = other_hash[key]
+      end
+      target
+    end
+
     def root_path
       root ||= if ::ENV.key?('RACK_ROOT')
         ::ENV['RACK_ROOT']
@@ -53,11 +84,6 @@ module Tupas
         ::Sinatra::Application.root
       end
     end
-
-    def load_settings_yaml(file)
-      YAML.load(File.open(File.join(root_path, file)))
-    end
-
   end
 end
 

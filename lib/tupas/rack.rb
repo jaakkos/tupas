@@ -1,23 +1,24 @@
 module Tupas
-  class Rack
-    def initialize(app, conditional_block = nil)
-      @app, @path, @conditional_block = app, "/alive", conditional_block
+  class Rack < ::Rack::Builder
+    def initialize(app, &block)
+      super
     end
 
     def call(env)
       # Add here
     end
 
-    def self.config
-      Configuration.instance
-    end
-
-    def self.configure
-      yield config
+    def configure(&block)
+      Tupas.configure(&block)
     end
 
     def self.logger
       config.logger
+    end
+
+    def options(options = false)
+      return @options || {} if options == false
+      @options = options
     end
 
   end

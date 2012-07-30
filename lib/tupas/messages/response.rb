@@ -15,10 +15,18 @@ module Tupas
       end
 
       def to_json
-        @_response_as_hash.to_json
+        MultiJson.dump(@_response_as_hash)
       end
 
       private
+
+      def default_settings
+        Tupas.config.message_default_settings
+      end
+
+      def service_providers
+        Tupas.config.message_service_providers
+      end
 
       def response_string_to_array(response_as_string)
         _response_array = response_as_string.split('&')
@@ -169,7 +177,7 @@ module Tupas
       end
 
       def default_response_fields
-        {1 => :id}
+        {1 => :tupas_id, 2 => :provider_id, 3 => :id}
       end
 
 

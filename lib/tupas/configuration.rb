@@ -1,16 +1,13 @@
 module Tupas
   class Configuration
     include Singleton
+    attr_reader :_settings
 
     @@defaults = {
-      message_type: '701',
-      version: '002',
-      service_providers: [],
-      return_address: '',
-      cancel_address: '',
-      reject_address: '',
-      key_version: '4',
-      key_algorith: ''
+      config_files: {
+        message_default_settings: 'config/default_settings.yml',
+        message_service_providers: 'config/service_providers.yml'
+      }
     }
 
     def self.defaults
@@ -18,14 +15,25 @@ module Tupas
     end
 
     def initialize
-      @@defaults.each_pair{|k,v| self.send("#{k}=",v)}
+      @_settings = {}
+      @@defaults[:config_files].each_pair do |key, value|
+        @_settings = Utils.deep_merge(@_settings, { key => load_settings_yaml(value) })
+      end
     end
 
     def self.default_logger
       logger = Logger.new(STDOUT)
-      logger.progname = "omniauth"
+      logger.progname = "tupas"
       logger
     end
 
+    def load_settings_yaml(file)
+      YAML.load(File.open(File.join(Tupas::Utils.root_path, file)))
+    end
+
+    def method_missing(name, *args, &block)
+      @_settings[name.to_sym] ||
+      fail(NoMethodError, "unknown configuration root #{name}", caller)
+    end
   end
 end

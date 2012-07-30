@@ -5,31 +5,26 @@ module Tupas
 
       def initialize(identifier)
         @identifier = identifier
-        @_service_providers = load_service_providers_config
-        @_default_settings = load_default_settings
       end
 
       def params
         _params = service_providers.collect do |provider|
-          provider.merge!(default_params)
+          provider.merge!(default_settings)
           provider['A01Y_STAMP'] = identifier
           provider['A01Y_MAC'] = calculate_mac(provider)
-          provider
+          provider.inject({}) { |h, (k, v)| if(k =~ /\Aa01y_(.)+/i); h[k.upcase] = v else; h[k] = v ; end; h }
         end
       end
 
-      def buttons
-        # REVIEW: Do we need view layer?
-      end
 
       private
 
-      def load_default_settings
-        Tupas::Utils.load_settings_yaml('config/default_settings.yml')
+      def default_settings
+        Tupas.config.message_default_settings
       end
 
-      def load_service_providers_config
-        Tupas::Utils.load_settings_yaml('config/service_providers.yml')
+      def service_providers
+        Tupas.config.message_service_providers
       end
 
       def calculate_mac(parameters)
@@ -39,19 +34,11 @@ module Tupas
       end
 
       def collect_variable_from(parameters)
-        correct_order.merge( parameters.select{|key, value| key =~ /\Aa01y_(.)+/i } )
+        correct_order.merge( (parameters.select{|key, value| key =~ /\Aa01y_(.)+/i }) )
       end
 
       def combine_variables_to_string(parameters, secret)
         parameters.collect{|key, value| "#{value}"}.join('&') << '&' << secret << '&'
-      end
-
-      def default_params
-        @_default_settings
-      end
-
-      def service_providers
-        @_service_providers
       end
 
       def correct_order

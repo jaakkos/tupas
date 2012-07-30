@@ -15,7 +15,7 @@ describe Tupas::Messages::Response do
 
   describe "#response_string_to_hash" do
     it "should convert full plain response string to hash" do
-      instanse.send(:response_array_to_hash, full_response_array).must_equal({:company_name=>"B02K_CUSTNAME", :business_identity_code=>"B02K_CUSTID", :social_security_number=>"B02K_CUSTTYPE", :person_name=>"B02K_USERNAME", :id=>"B02K_TIMESTMP"})
+      instanse.send(:response_array_to_hash, full_response_array).must_equal({:company_name=>"B02K_CUSTNAME", :business_identity_code=>"B02K_CUSTID", :social_security_number=>"B02K_CUSTTYPE", :person_name=>"B02K_USERNAME", :tupas_id=>"B02K_TIMESTMP", :provider_id=>"B02K_IDNBR", :id=>"B02K_STAMP"})
     end
   end
 
@@ -34,6 +34,18 @@ describe Tupas::Messages::Response do
   describe "#valid_mac?" do
     it "message is valid when hash equal to send from tupas provider" do
       instanse.send(:valid_mac?, full_response_array, tupas_provider_secret).must_equal true
+    end
+  end
+
+  describe "#to_hash" do
+    it "should return response from tupas provider as hash" do
+      instanse.to_hash.must_equal({:company_name=>"B02K_CUSTNAME", :business_identity_code=>"B02K_CUSTID", :social_security_number=>"B02K_CUSTTYPE", :person_name=>"B02K_USERNAME", :tupas_id=>"B02K_TIMESTMP", :provider_id=>"B02K_IDNBR", :id=>"B02K_STAMP"})
+    end
+  end
+
+  describe "#to_json" do
+    it "should return response from tupas provider as json" do
+      instanse.to_json.must_equal('{"company_name":"B02K_CUSTNAME","business_identity_code":"B02K_CUSTID","social_security_number":"B02K_CUSTTYPE","person_name":"B02K_USERNAME","tupas_id":"B02K_TIMESTMP","provider_id":"B02K_IDNBR","id":"B02K_STAMP"}')
     end
   end
 

@@ -9,17 +9,18 @@ describe Tupas::Messages::Request do
   describe "#params" do
     it "should genere parameters for tupas request" do
       instanse.params.must_equal [
-        {"A01Y_VERS"=>"0001", "A01Y_RCVID"=>"Elisa testi", "A01Y_IDTYPE"=>"12", "name"=>"Elisa Mobiilivarmenne testi",
-        "url"=>"https://mtupaspreprod.elisa.fi/tunnistus/signature.cmd", "secret"=>"12345", "A01Y_ACTION_ID"=>701,
-        "A01Y_LANGCODE"=>"FI", "A01Y_KEYVERS"=>1, "A01Y_ALG"=>3, "A01Y_CANLINK"=>"https://example.com/cancel",
-        "A01Y_REJLINK"=>"https://example.com/reject", "A01Y_RETLINK"=>"https://example.com/return", "A01Y_STAMP"=>"123461",
-        "A01Y_MAC"=>"dd8c723b1cc0f314d8bf45bc9a4d6e9fcc0aadf308a52be7f24b00c1f74399a1"},
+        {"A01Y_VERS"=>"0001", "A01Y_RCVID"=>"Elisa testi", "A01Y_IDTYPE"=>"12",
+         "name"=>"Elisa Mobiilivarmenne testi", "url"=>"https://mtupaspreprod.elisa.fi/tunnistus/signature.cmd",
+         "secret"=>"12345", "A01Y_ACTION_ID"=>701, "A01Y_LANGCODE"=>"FI", "A01Y_KEYVERS"=>1, "A01Y_ALG"=>3,
+         "A01Y_CANLINK"=>"https://example.com/cancel", "A01Y_REJLINK"=>"https://example.com/reject",
+         "A01Y_RETLINK"=>"https://example.com/return", "A01Y_STAMP"=>"123461",
+         "A01Y_MAC"=>"c356b65479388a50ddadec5db6d1e1db66ba768322b523f1e127d246deca1046"},
         {"A01Y_VERS"=>"0001", "A01Y_RCVID"=>"Avoinministerio", "A01Y_IDTYPE"=>"12", "name"=>"Elisa Mobiilivarmenne",
-          "url"=>"https://tunnistuspalvelu.elisa.fi/tunnistus/signature.cmd", "secret"=>"12345",
-          "A01Y_ACTION_ID"=>701, "A01Y_LANGCODE"=>"FI", "A01Y_KEYVERS"=>1, "A01Y_ALG"=>3,
-          "A01Y_CANLINK"=>"https://example.com/cancel", "A01Y_REJLINK"=>"https://example.com/reject",
-          "A01Y_RETLINK"=>"https://example.com/return", "A01Y_STAMP"=>"123461",
-          "A01Y_MAC"=>"5e68e4f8be22184dbdd81bf7bbd3f7809be11ae2a83c7c9d3d93fda0e69e93c3"}]
+         "url"=>"https://tunnistuspalvelu.elisa.fi/tunnistus/signature.cmd", "secret"=>"12345",
+         "A01Y_ACTION_ID"=>701, "A01Y_LANGCODE"=>"FI", "A01Y_KEYVERS"=>1, "A01Y_ALG"=>3,
+         "A01Y_CANLINK"=>"https://example.com/cancel", "A01Y_REJLINK"=>"https://example.com/reject",
+         "A01Y_RETLINK"=>"https://example.com/return", "A01Y_STAMP"=>"123461",
+         "A01Y_MAC"=>"4bf1479df3d0fdec8387fafca277190e2d93308534e32d1e4c59641af8aa5b86"}]
     end
   end
 
