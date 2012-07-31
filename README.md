@@ -3,14 +3,15 @@
 
 Read more from http://www.fkl.fi/teemasivut/sahkoinen_asiointi/Dokumentit/Tupas-tunnnistusperiaatteet_v20b.pdf
 
+[![Build Status](https://secure.travis-ci.org/jaakkos/tupas.png?branch=master)](http://travis-ci.org/jaakkos/tupas)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/jaakkos/tupas)
+
 ## In pipeline
 
  - [feature]: Extract provider from response and read secret from configs
  - [feature]: Railtie / Add view helper for rendering forms
  - [feature]: Add Rack middleware for handling success/error/other responses from Tupas provider
  - [enhancement]: Write a gem description
-
-[![Build Status](https://secure.travis-ci.org/jaakkos/tupas.png?branch=master)](http://travis-ci.org/jaakkos/tupas)
 
 
 ## Installation
