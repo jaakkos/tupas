@@ -5,12 +5,12 @@ describe Tupas::Messages::Response do
   let(:full_response_string) { "B02K_VERS&B02K_TIMESTMP&B02K_IDNBR&B02K_STAMP&B02K_CUSTNAME&B02K_KEYVERS&03&B02K_CUSTID&08&B02K_CUSTTYPE&B02K_USERNAME&#{valid_mac}" }
   let(:full_response_array)  { full_response_string.split('&')}
   let(:klass)                { Tupas::Messages::Response }
-  let(:instanse)             { Tupas::Messages::Response.new(full_response_string, tupas_provider_secret) }
-  let(:valid_mac)            { 'e496575d9927bf66e371a61c71a3ee5e9d7abbdbc5c168e1f00a99c53062d1ce' }
-  let(:tupas_provider_secret) {'123456789' }
+  let(:instanse)             { Tupas::Messages::Response.new(full_response_string, tupas_provider) }
+  let(:valid_mac)            { 'a4d585c8d3dd9fe9f404a110583600b0aa22b1f74811636253394dd9a862a770' }
+  let(:tupas_provider)       {'elisa-mobiilivarmenne-testi' }
 
   def response_string_with_type(type)
-    "B02K_VERS&B02K_TIMESTMP&B02K_IDNBR&B02K_STAMP&B02K_CUSTNAME&B02K_KEYVERS&03&B02K_CUSTID&#{type}&08&B02K_CUSTTYPE&B02K_USERNAME&e496575d9927bf66e371a61c71a3ee5e9d7abbdbc5c168e1f00a99c53062d1ce".split("&")
+    "B02K_VERS&B02K_TIMESTMP&B02K_IDNBR&B02K_STAMP&B02K_CUSTNAME&B02K_KEYVERS&03&B02K_CUSTID&#{type}&08&B02K_CUSTTYPE&B02K_USERNAME&89d4859ed0f8129cb52ce1317b25600827a232e4eea14f29ca2bd21ff1551efc".split("&")
   end
 
   describe "#response_string_to_hash" do
@@ -21,7 +21,8 @@ describe Tupas::Messages::Response do
 
   describe "#calculate_mac" do
     it "should calculate_mac" do
-      instanse.send(:calculate_mac, full_response_array, tupas_provider_secret).must_equal valid_mac
+      full_response_array.pop
+      instanse.send(:calculate_mac, full_response_array, tupas_provider).must_equal valid_mac
     end
   end
 
@@ -33,7 +34,7 @@ describe Tupas::Messages::Response do
 
   describe "#valid_mac?" do
     it "message is valid when hash equal to send from tupas provider" do
-      instanse.send(:valid_mac?, full_response_array, tupas_provider_secret).must_equal true
+      instanse.send(:valid_mac?, full_response_array).must_equal true
     end
   end
 
@@ -59,7 +60,7 @@ describe Tupas::Messages::Response do
     end
 
     (1..8).each do |message_type|
-      it "should return message type 01: #{Tupas::Messages::Response.new('B02K_VERS&B02K_TIMESTMP&B02K_IDNBR&B02K_STAMP&B02K_CUSTNAME&B02K_KEYVERS&03&B02K_CUSTID&08&B02K_CUSTTYPE&B02K_USERNAME&e496575d9927bf66e371a61c71a3ee5e9d7abbdbc5c168e1f00a99c53062d1ce', '123456789').send(:response_message_formats)[message_type-1]}" do
+      it "should return message type 01: #{Tupas::Messages::Response.new('B02K_VERS&B02K_TIMESTMP&B02K_IDNBR&B02K_STAMP&B02K_CUSTNAME&B02K_KEYVERS&03&B02K_CUSTID&08&B02K_CUSTTYPE&B02K_USERNAME&a4d585c8d3dd9fe9f404a110583600b0aa22b1f74811636253394dd9a862a770', 'elisa-mobiilivarmenne-testi').send(:response_message_formats)[message_type-1]}" do
         instanse.send(:detect_response_type, response_string_with_type("0#{message_type}")).must_equal instanse.send(:response_message_formats)[message_type-1]
       end
     end

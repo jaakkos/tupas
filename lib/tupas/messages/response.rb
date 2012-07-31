@@ -2,11 +2,11 @@ module Tupas
   module Messages
     class Response
 
-      def initialize(response_as_string, tupas_provider_secret = '')
-        @_response_as_string = response_as_string
-        @_response_as_array = response_string_to_array(response_as_string)
+      def initialize(response_as_string, provider_identifier = '')
 
-        raise Exceptions::InvalidMacForResponseMessage unless valid_mac?(@_response_as_array, tupas_provider_secret)
+        @_response_as_array = response_string_to_array(response_as_string)
+        @_provider_secret = provider_secret(provider_identifier)
+        raise Exceptions::InvalidMacForResponseMessage unless valid_mac?(@_response_as_array)
         @_response_as_hash = response_array_to_hash(@_response_as_array)
       end
 
@@ -20,17 +20,21 @@ module Tupas
 
       private
 
+      def provider_secret(provider_identifier)
+        Tupas.config.providers.find{|value| value['id'] == provider_identifier.to_s }['secret']
+      end
+
       def default_settings
-        Tupas.config.message_default_settings
+        Tupas.config.default
       end
 
       def service_providers
-        Tupas.config.message_service_providers
+        Tupas.config.providers
       end
 
       def response_string_to_array(response_as_string)
         _response_array = response_as_string.split('&')
-        raise Exceptions::InvalidResponseMessage, "Response message is too short, missing fields: #{response_string}" if _response_array.length <= 8
+        raise Exceptions::InvalidResponseMessage, "Response message is too short, missing fields: #{response_as_string}" if _response_array.length <= 8
         _response_array
       end
 
@@ -44,18 +48,20 @@ module Tupas
         _response[_fields_for_parsing.first]
       end
 
-      def retrieve_mac_from_response(response_as_array)
-        response_as_array.last
+      def valid_mac?(response_as_array)
+        _mac_from_provider = retrieve_mac_from_response(response_as_array)
+        _calculated_mac_from_response = calculate_mac(response_as_array, @_provider_secret)
+        _mac_from_provider == _calculated_mac_from_response
       end
 
-      def valid_mac?(response_as_array, tupas_provider_secret)
-        calculate_mac(response_as_array, tupas_provider_secret) == (retrieve_mac_from_response(response_as_array))
+      def retrieve_mac_from_response(response_as_array)
+        response_as_array.pop
       end
 
       def calculate_mac(response_as_array, tupas_provider_secret)
         _hash_algorithm = detect_hash_algorithm(response_as_array)
-        _fields_for_calculating_mac_as_string = retrieve_field_for_calculating_mac(response_as_array) + "&#{tupas_provider_secret}&"
-        Tupas::Utils.calculate_hex_hash_with(_hash_algorithm, _fields_for_calculating_mac_as_string)
+        _fields_for_calculating_mac_as_string = retrieve_field_for_calculating_mac((response_as_array << tupas_provider_secret))
+        Mac.calculate_hash(_hash_algorithm, _fields_for_calculating_mac_as_string)
       end
 
       def detect_hash_algorithm(response_as_array)
@@ -72,7 +78,7 @@ module Tupas
       end
 
       def retrieve_field_for_calculating_mac(response_as_array)
-        response_as_array[0..(response_as_array.length - 2)].join('&')
+        response_as_array[0..(response_as_array.length - 2)]
       end
 
       def detect_response_type(response_as_array)
@@ -157,7 +163,7 @@ module Tupas
           # 10 = Ei pyydettyjä tietoja asiakkaasta.
           # 11 = Yritysasiakkaan käyttäjästä ei henkilötunnusta.
           # 12 = Yritysasiakkaasta ei Y-tunnusta.
-          raise Exceptions::IncompleteResponseMessage, {:error => response_as_array[8]}
+          raise Exceptions::IncompleteResponseMessage, response_as_array[8]
         else
           raise Exceptions::InvalidResponseMessageType, "Couldn't detect message type, type is set to #{response_as_array[8]}."
         end

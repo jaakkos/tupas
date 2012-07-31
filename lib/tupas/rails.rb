@@ -1,8 +1,9 @@
 module Tupas
   module Rails
     class Railtie < ::Rails::Railtie
-      initializer do
-        Tupas.config.logger = Rails.logger
+      initializer 'tupas.boot' do |app|
+        ActionView::Base.send :include, ViewHelpers
+        app.middleware.use Tupas::Rack
       end
     end
   end

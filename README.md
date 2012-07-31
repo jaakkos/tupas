@@ -12,7 +12,6 @@ Read more
 
 ## In pipeline
 
- - [feature]: Extract provider from response and read secret from configs
  - [feature]: Railtie / Add view helper for rendering forms
  - [feature]: Add Rack middleware for handling success/error/other responses from Tupas provider
  - [enhancement]: Write a gem description
@@ -20,6 +19,9 @@ Read more
   Use https://www.op.fi/op/yritysasiakkaat/maksaminen-ja-laskutus/muut-palvelut/tupas-tunnistuspalvelu/tupas-tunnistuspalvelun-testaus?cid=150294058&srcpl=3
 
 
+## Done
+
+ - [feature]: Extract provider from response and read secret from configs
 
 ## Installation
 

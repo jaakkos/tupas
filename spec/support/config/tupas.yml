@@ -1,0 +1,25 @@
+default:
+  a01y_action_id: '701'
+  a01y_langcode: FI
+  a01y_keyvers: '0001'
+  a01y_alg: '03'
+  a01y_canlink: 'http://localhost:3000/_tupas/{provider}/{identifier}/cancel'
+  a01y_rejlink: 'http://localhost:3000/_tupas/{provider}/{identifier}/reject'
+  a01y_retlink: 'http://localhost:3000/_tupas/{provider}/{identifier}/success'
+
+providers:
+  - a01y_vers: '0001'
+    a01y_rcvid: 'Elisa testi'
+    a01y_idtype: '12'
+    name: 'Elisa Mobiilivarmenne testi'
+    url: 'https://mtupaspreprod.elisa.fi/tunnistus/signature.cmd'
+    id: 'elisa-mobiilivarmenne-testi'
+    secret: '12345'
+
+  - a01y_vers: '0001'
+    a01y_rcvid: 'Avoinministerio'
+    a01y_idtype: '12'
+    name: 'Elisa Mobiilivarmenne'
+    url: 'https://tunnistuspalvelu.elisa.fi/tunnistus/signature.cmd'
+    id: 'elisa-mobiilivarmenne'
+    secret: '12345'

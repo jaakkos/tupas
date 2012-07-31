@@ -2,23 +2,12 @@ module Tupas
   class Configuration
     include Singleton
     attr_reader :_settings
-
-    @@defaults = {
-      config_files: {
-        message_default_settings: 'config/default_settings.yml',
-        message_service_providers: 'config/service_providers.yml'
-      }
-    }
-
-    def self.defaults
-      @@defaults
-    end
+    @_settings = {}
 
     def initialize
       @_settings = {}
-      @@defaults[:config_files].each_pair do |key, value|
-        @_settings = Utils.deep_merge(@_settings, { key => load_settings_yaml(value) })
-      end
+      _settings = load_settings_yaml('config/tupas.yml')
+      _settings.each_pair{|key, value| @_settings = Utils.deep_merge(@_settings, { key.to_sym => value }) }
     end
 
     def self.default_logger

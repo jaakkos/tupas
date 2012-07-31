@@ -5,14 +5,18 @@ require 'logger'
 require 'yaml'
 require 'multi_json'
 require 'oj'
+require 'addressable/uri'
+require 'addressable/template'
 
 
 module Tupas
   autoload :VERSION, 'tupas/version'
   autoload :Configuration, 'tupas/configuration'
   autoload :Rack, 'tupas/rack'
+  autoload :ViewHelpers, 'tupas/view_helpers'
 
   module Messages
+    autoload :Mac,      'tupas/messages/mac'
     autoload :Request,  'tupas/messages/request'
     autoload :Response, 'tupas/messages/response'
   end
@@ -45,22 +49,8 @@ module Tupas
   module Utils
     module_function
 
-    def sha256_hex(string = '')
-      calculate_hex_hash_with(:sha_256, string)
-    end
-
-    # REVIEW: Wrapper for Digest, if we need to changed to different lib - jaakko
-    def calculate_hex_hash_with(algorithm, string = '')
-      case algorithm
-        when :md5
-          Digest::MD5.hexdigest(string)
-        when :sha_1
-          Digest::SHA1.hexdigest(string)
-        when :sha_256
-          Digest::SHA256.hexdigest(string)
-        else
-          raise ArgumentError, "Unkown hash algorithm: #{algorithm}"
-      end
+    def url_from_template(template = '', parameters = {})
+      ::Addressable::Template.new(template).expand(parameters).to_s
     end
 
     def deep_merge(hash, other_hash = {})
@@ -86,4 +76,6 @@ module Tupas
     end
   end
 end
+
+require 'tupas/rails' if defined?(::Rails)
 

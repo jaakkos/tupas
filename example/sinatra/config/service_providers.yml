@@ -1,0 +1,13 @@
+- a01y_vers: '0001'
+  a01y_rcvid: 'Elisa testi'
+  a01y_idtype: '12'
+  name: 'Elisa Mobiilivarmenne testi'
+  url: 'https://mtupaspreprod.elisa.fi/tunnistus/signature.cmd'
+  secret: '12345'
+
+- a01y_vers: '0001'
+  a01y_rcvid: 'Avoinministerio'
+  a01y_idtype: '12'
+  name: 'Elisa Mobiilivarmenne'
+  url: 'https://tunnistuspalvelu.elisa.fi/tunnistus/signature.cmd'
+  secret: '12345'

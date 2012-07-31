@@ -1,0 +1,7 @@
+a01y_action_id: '701'
+a01y_langcode: FI
+a01y_keyvers: '0001'
+a01y_alg: '03'
+a01y_canlink: 'https://example.com/cancel'
+a01y_rejlink: 'https://example.com/reject'
+a01y_retlink: 'https://example.com/return'
