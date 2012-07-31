@@ -1,7 +1,11 @@
 =======
 # Tupas
 
-Read more from http://www.fkl.fi/teemasivut/sahkoinen_asiointi/Dokumentit/Tupas-tunnnistusperiaatteet_v20b.pdf
+Read more
+- http://www.fkl.fi/teemasivut/sahkoinen_asiointi/Dokumentit/Tupas-tunnnistusperiaatteet_v20b.pdf
+- http://www.fkl.fi/teemasivut/sahkoinen_asiointi/Dokumentit/Tupas-varmennepalvelu_v23c.pdf
+- http://www.nordea.fi/sitemod/upload/Root/fi_org/liite/s/yritys/pdf/etunnist.pdf
+- http://www.fkl.fi/teemasivut/sahkoinen_asiointi/tupas/Sivut/default.aspx
 
 [![Build Status](https://secure.travis-ci.org/jaakkos/tupas.png?branch=master)](http://travis-ci.org/jaakkos/tupas)
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/jaakkos/tupas)
@@ -12,6 +16,9 @@ Read more from http://www.fkl.fi/teemasivut/sahkoinen_asiointi/Dokumentit/Tupas-
  - [feature]: Railtie / Add view helper for rendering forms
  - [feature]: Add Rack middleware for handling success/error/other responses from Tupas provider
  - [enhancement]: Write a gem description
+ - [enhancement]: Write acceptance tests against:
+  Use https://www.op.fi/op/yritysasiakkaat/maksaminen-ja-laskutus/muut-palvelut/tupas-tunnistuspalvelu/tupas-tunnistuspalvelun-testaus?cid=150294058&srcpl=3
+
 
 
 ## Installation
