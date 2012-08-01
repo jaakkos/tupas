@@ -1,3 +1,7 @@
+end_points:
+  error_path: '/tupas/error'
+  success_path: '/tupas/success'
+
 default:
   a01y_action_id: '701'
   a01y_langcode: FI

@@ -28,6 +28,7 @@ module Tupas
     autoload :InvalidResponseMessageType, 'tupas/exceptions'
     autoload :IncompleteResponseMessage, 'tupas/exceptions'
     autoload :TypeNotFoundResponseMessage, 'tupas/exceptions'
+    autoload :InvalidTupasProvider, 'tupas/exceptions'
   end
 
   def self.config

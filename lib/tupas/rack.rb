@@ -5,10 +5,8 @@ module Tupas
     end
 
     def call(env)
-      puts env
-      action = detect_url(env['PATH_INFO'])
-      if action == :success
-        process_respons_message(env['QUERY_STRING'], env)
+      if action = detect_url(env['PATH_INFO'])
+        process_respons_message(env['QUERY_STRING'], action[:provider], env)
       else
         @app.call(env)
       end
@@ -21,29 +19,23 @@ module Tupas
     end
 
     def detect_url(path_info)
-      if path_info =~ /\A\/_tupas\/(.)+\/success\z/
-        :success
-      elsif path_info =~ /\A\/_tupas\/(.)+\/reject\z/
-        :reject
-      elsif path_info =~ /\A\/_tupas\/(.)+\/cancel\z/
-        :cancel
-      else
-        false
-      end
+      /\A\/_tupas\/(?<provider>(\w|-)+)\/(?<id>(\w|-)+)\/(?<type>success|reject|cancel)\z/.match(path_info)
     end
 
-    def process_respons_message(query_string, env)
+    def process_respons_message(query_string, provider, env)
       begin
-        _message = Messages::Response.new(query_string)
-        responses(env, config.success_path, _message.to_hash)
+        _message = Messages::Response.new(query_string, provider)
+        responses(env, config.end_points["success_path"], _message.to_hash)
+      rescue Exceptions::InvalidTupasProvider => exception_message
+        responses(env, config.end_points["error_path"], {error: 'tupas_provider_not_found'})
       rescue Exceptions::IncompleteResponseMessage => exception_message
-        responses(env, config.error_path, {:error => 'information_not_found', :message_number => exception_message.message})
+        responses(env, config.end_points["error_path"], {error: 'information_not_found', message_number: exception_message.message})
       rescue Exceptions::InvalidResponseMessage
-        responses(env, config.error_path, {error: 'invalid_response_message'})
+        responses(env, config.end_points["error_path"], {error: 'invalid_response_message'})
       rescue Exceptions::InvalidMacForResponseMessage
-        responses(env, config.error_path, {error: 'invalid_mac_for_response_message'})
+        responses(env, config.end_points["error_path"], {error: 'invalid_mac_for_response_message'})
       rescue Exceptions::TypeNotFoundResponseMessage
-        responses(env, config.error_path, {error: 'message_type_missing_response_message'})
+        responses(env, config.end_points["error_path"], {error: 'message_type_missing_response_message'})
       end
     end
 

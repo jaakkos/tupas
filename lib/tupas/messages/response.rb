@@ -21,7 +21,11 @@ module Tupas
       private
 
       def provider_secret(provider_identifier)
-        Tupas.config.providers.find{|value| value['id'] == provider_identifier.to_s }['secret']
+        begin
+          return Tupas.config.providers.find{|value| value['id'] == provider_identifier }['secret']
+        rescue NoMethodError => exception
+          raise Exceptions::InvalidTupasProvider
+        end
       end
 
       def default_settings
