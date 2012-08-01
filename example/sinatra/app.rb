@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 helpers do
   include Tupas::ViewHelpers
 end

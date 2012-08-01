@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Tupas
   module ViewHelpers
     def tupas_buttons(identifier)

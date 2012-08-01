@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 Sample::Application.routes.draw do
   root :to => 'tupas#home'
   # The priority is based upon order of creation:

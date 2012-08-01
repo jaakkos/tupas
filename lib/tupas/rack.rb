@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 module Tupas
   class Rack
     def initialize(app, conditional_block = nil)
