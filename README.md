@@ -11,9 +11,6 @@ Read more
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/jaakkos/tupas)
 
 ## In pipeline
-
- - [feature]: Railtie / Add view helper for rendering forms
- - [feature]: Add Rack middleware for handling success/error/other responses from Tupas provider
  - [enhancement]: Write a gem description
  - [enhancement]: Write acceptance tests against:
   Use https://www.op.fi/op/yritysasiakkaat/maksaminen-ja-laskutus/muut-palvelut/tupas-tunnistuspalvelu/tupas-tunnistuspalvelun-testaus?cid=150294058&srcpl=3
