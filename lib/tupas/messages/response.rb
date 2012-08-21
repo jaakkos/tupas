@@ -4,7 +4,6 @@ module Tupas
     class Response
 
       def initialize(response_as_string, provider_identifier = '')
-
         @_response_as_array = response_string_to_array(response_as_string)
         @_provider_secret = provider_secret(provider_identifier)
         raise Exceptions::InvalidMacForResponseMessage unless valid_mac?(@_response_as_array)

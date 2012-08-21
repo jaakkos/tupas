@@ -2,16 +2,16 @@
 module Tupas
   module Messages
     class Request
-      attr_reader :identifier
+      attr_reader :request_stamp, :request_identifier
 
-      def initialize(identifier)
-        @identifier = identifier
+      def initialize(request_stamp, request_identifier = nil)
+        @request_stamp, @request_identifier = request_stamp, request_identifier
       end
 
       def params
         _params = service_providers.collect do |provider|
           provider.merge!(default_settings)
-          provider['a01y_stamp'] = identifier
+          provider['a01y_stamp'] = request_stamp
           provider = convert_url_templates_to_urls(provider)
           provider['a01y_mac'] = calculate_mac(provider)
           provider
@@ -52,7 +52,7 @@ module Tupas
       def convert_url_templates_to_urls(params)
         _params = params.collect do |value|
           if value[0] =~ /\Aa01y_(\w){3}link\z/i
-            [value[0], Utils.url_from_template(value[1], {'provider' => params['id'], 'identifier' => params['a01y_stamp']})]
+            [value[0], Utils.url_from_template(value[1], {'provider' => params['id'], 'stamp' => params['a01y_stamp'], 'identifier' => request_identifier})]
           else
             value
           end

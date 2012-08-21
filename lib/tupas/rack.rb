@@ -20,7 +20,7 @@ module Tupas
     end
 
     def detect_url(path_info)
-      /\A\/_tupas\/(?<provider>(\w|-)+)\/(?<id>(\w|-)+)\/(?<type>success|reject|cancel)\z/.match(path_info)
+      /\A\/_tupas\/(?<provider>(\w|-)+)\/(?<stamp>(\w|-)+)\/(?<id>(\w|-)+)\/(?<type>success|reject|cancel)\z/.match(path_info)
     end
 
     def process_respons_message(query_string, provider, env)
