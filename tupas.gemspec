@@ -19,6 +19,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'multi_json'
   gem.add_runtime_dependency 'oj'
   gem.add_runtime_dependency 'addressable'
+  gem.add_runtime_dependency 'activesupport', '> 3.2'
 
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'bundler'
@@ -35,4 +36,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'mocha'
   gem.add_development_dependency 'differ'
   gem.add_development_dependency 'timecop'
+  gem.add_development_dependency 'rails', '~> 3.2.8'
 end

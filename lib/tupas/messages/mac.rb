@@ -15,11 +15,11 @@ module Tupas
       def calculate_hex_hash_with(algorithm, string = '')
         case algorithm
           when :md5
-            Digest::MD5.hexdigest(string)
+            Digest::MD5.hexdigest(string).upcase
           when :sha_1
-            Digest::SHA1.hexdigest(string)
+            Digest::SHA1.hexdigest(string).upcase
           when :sha_256
-            Digest::SHA256.hexdigest(string)
+            Digest::SHA256.hexdigest(string).upcase
           else
             raise ArgumentError, "Unkown hash algorithm: #{algorithm}"
         end

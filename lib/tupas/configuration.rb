@@ -3,12 +3,11 @@ module Tupas
   class Configuration
     include Singleton
     attr_reader :_settings
-    @_settings = {}
 
     def initialize
       @_settings = {}
-      _settings = load_settings_yaml('config/tupas.yml')
-      _settings.each_pair{|key, value| @_settings = Utils.deep_merge(@_settings, { key.to_sym => value }) }
+      @_settings = @_settings.deep_merge!(settings_yaml('config/tupas.yml')[Tupas.env]).with_indifferent_access
+      self
     end
 
     def self.default_logger
@@ -17,8 +16,8 @@ module Tupas
       logger
     end
 
-    def load_settings_yaml(file)
-      YAML.load(File.open(File.join(Tupas::Utils.root_path, file)))
+    def settings_yaml(file)
+      YAML.load(File.open(File.join(Tupas.root, file)))
     end
 
     def method_missing(name, *args, &block)

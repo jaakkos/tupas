@@ -11,6 +11,8 @@ Read more
 [![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/jaakkos/tupas)
 
 ## In pipeline
+ - [feature]: env based config
+ - [bug]: invalid respose format B02K_VERS=0002&B02K_TIMESTMP=60020120822204827000001&B02K_IDNBR=0000004693&B02K_STAMP=2012082220481641964&B02K_CUSTNAME=DEMO+ANNA&B02K_KEYVERS=0001&B02K_ALG=03&B02K_CUSTID=010170-960F&B02K_CUSTTYPE=08&B02K_MAC=F0C8A198605FE1058D597B52BA0EC1F4D49CA55DC594D891A7E46D8A1857949A
  - [enhancement]: Write a gem description
  - [enhancement]: Write acceptance tests against:
   Use https://www.op.fi/op/yritysasiakkaat/maksaminen-ja-laskutus/muut-palvelut/tupas-tunnistuspalvelu/tupas-tunnistuspalvelun-testaus?cid=150294058&srcpl=3

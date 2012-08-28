@@ -17,5 +17,7 @@ require 'pp'
 require 'timecop'
 
 ENV['RACK_ROOT'] = File.expand_path('./spec/support')
+ENV['RACK_ENV'] = 'test'
+
 require 'tupas'
 

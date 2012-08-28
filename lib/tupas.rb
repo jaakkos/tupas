@@ -8,6 +8,8 @@ require 'multi_json'
 require 'oj'
 require 'addressable/uri'
 require 'addressable/template'
+require 'active_support/core_ext/hash'
+require 'active_support/hash_with_indifferent_access'
 
 
 module Tupas
@@ -30,6 +32,7 @@ module Tupas
     autoload :IncompleteResponseMessage, 'tupas/exceptions'
     autoload :TypeNotFoundResponseMessage, 'tupas/exceptions'
     autoload :InvalidTupasProvider, 'tupas/exceptions'
+    autoload :InvalidResponseString, 'tupas/exceptions'
   end
 
   def self.config
@@ -48,33 +51,33 @@ module Tupas
     config.logger = _logger
   end
 
+  def env
+    env ||= if ::ENV.key?('RACK_ENV')
+      ::ENV['RACK_ENV']
+    elsif defined?(::Rails)
+      ::Rails.root
+    elsif defined?(::Sinatra::Application)
+      ::Sinatra::Application.env
+    end
+  end
+  module_function :env
+
+  def root
+    root ||= if ::ENV.key?('RACK_ROOT')
+      ::ENV['RACK_ROOT']
+    elsif defined?(::Rails)
+      ::Rails.root
+    elsif defined?(::Sinatra::Application)
+      ::Sinatra::Application.root
+    end
+  end
+  module_function :root
+
   module Utils
     module_function
 
     def url_from_template(template = '', parameters = {})
       ::Addressable::Template.new(template).expand(parameters).to_s
-    end
-
-    def deep_merge(hash, other_hash = {})
-      target = hash.dup
-      other_hash.keys.each do |key|
-        if other_hash[key].is_a? ::Hash and hash[key].is_a? ::Hash
-          target[key] = deep_merge(target[key],other_hash[key])
-          next
-        end
-        target[key] = other_hash[key]
-      end
-      target
-    end
-
-    def root_path
-      root ||= if ::ENV.key?('RACK_ROOT')
-        ::ENV['RACK_ROOT']
-      elsif defined?(::Rails)
-        ::Rails.root
-      elsif defined?(::Sinatra::Application)
-        ::Sinatra::Application.root
-      end
     end
   end
 end

@@ -8,5 +8,6 @@ module Tupas
     class InvalidResponseMessageType < ArgumentError; end
     class IncompleteResponseMessage < ArgumentError; end
     class TypeNotFoundResponseMessage < ArgumentError; end
+    class InvalidResponseString < ArgumentError; end
   end
 end
